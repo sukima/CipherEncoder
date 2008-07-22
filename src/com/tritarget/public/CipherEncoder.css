@@ -1,0 +1,134 @@
+/**
+ * Copyright (c) 2008 Devin Weaver
+ * Licensed under the Educational Community License version 1.0
+ * See the file COPYING with this distrobution for details.
+ */
+.main-tab-panel
+{
+    background-color: #E5ECF9;
+}
+
+.main-panel
+{
+    border-left: 1px solid #3366CC;
+    border-right: 1px solid #3366CC;
+    border-bottom: 1px solid #3366CC;
+    padding: 0px;
+}
+
+.about-box
+{
+    border-left: 1px solid #3366CC;
+    border-right: 1px solid #3366CC;
+    border-bottom: 1px solid #3366CC;
+    padding: 5px;
+}
+
+.gwt-TabBar
+{ 
+    padding-top: 2px;
+    border-bottom: 1px solid #3366CC;
+    background-color: #fff;
+}
+
+/*
+.gwt-TabBar .gwt-TabBarFirst { }
+.gwt-TabBar .gwt-TabBarRest { }
+*/
+
+.gwt-TabBar .gwt-TabBarItem
+{ 
+    padding: 2px;
+    cursor: pointer;
+    cursor: hand;
+
+    background-color: #e8eef7;
+    border-bottom: 2px solid white;
+    margin-right: 2px;
+}
+
+.gwt-TabBar .gwt-TabBarItem-selected
+{ 
+    padding: 2px;
+    font-weight: bold;
+    cursor: default;
+
+    background-color: #87b3ff;
+    border-bottom: 2px solid white;
+    margin-right: 2px;
+}
+
+.instructions-box
+{
+    text-align: center;
+    font-size: 0.7em;
+    font-style: italic;
+}
+
+.top-panel
+{
+    padding: 2px;
+    margin: auto;
+    text-align: center;
+}
+
+.top-panel td
+{
+    padding: 2px 25px;
+}
+
+.keys-panel
+{
+    padding: 2px;
+    width: 100%;
+    margin: auto;
+    text-align: center;
+}
+
+.buttons-panel
+{
+    border: 1px solid #3366CC;
+    background-color: #C9C9F9;
+    padding: 2px;
+    margin: auto;
+    text-align: center;
+}
+
+.buttons-panel td
+{
+    padding: 2px 25px;
+}
+
+.text-panel td
+{
+    padding: 2px;
+}
+
+.disclose-panel
+{
+    background-color: #C9C9F9;
+    width: 100%;
+    border-top: 1px solid #3366CC;
+}
+
+.gwt-RadioButton,
+.gwt-TextBox
+{
+    margin-left: 10px;
+}
+
+.gwt-Button
+{
+    text-align: center;
+    margin: auto;
+}
+
+.gwt-TextArea-output
+{
+    background-color: #F0F0F0;
+}
+
+.copyright
+{
+    font-style: italic;
+}
