@@ -16,6 +16,12 @@
     padding: 0px;
 }
 
+.main-panel td
+{
+    text-align: center;
+    margin: auto;
+}
+
 .about-box
 {
     border-left: 1px solid #3366CC;
@@ -69,12 +75,12 @@
 {
     padding: 2px;
     margin: auto;
-    text-align: center;
 }
 
 .top-panel td
 {
     padding: 2px 25px;
+    text-align: left;
 }
 
 .keys-panel
@@ -102,6 +108,7 @@
 .text-panel td
 {
     padding: 2px;
+    text-align: left;
 }
 
 .disclose-panel
@@ -109,6 +116,11 @@
     background-color: #C9C9F9;
     width: 100%;
     border-top: 1px solid #3366CC;
+}
+
+.disclose-panel td
+{
+    text-align: left;
 }
 
 .gwt-RadioButton,

@@ -31,7 +31,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class CipherEncoder implements EntryPoint, ChangeListener {
     // Constants
     public static final String APP_NAME = "Cipher Encoder";
-    public static final String APP_VERSION = "0.2";
+    public static final String APP_VERSION = "0.3";
 
     // Private fields {{{
     private TextBox key1;
@@ -50,7 +50,7 @@ public class CipherEncoder implements EntryPoint, ChangeListener {
      */
     // onModuleLoad() {{{
     public void onModuleLoad() {
-        int tab_index = 0;
+        int tab_index = 1;
 
         // Setup debug panel {{{2
         this.debug_panel = new VerticalPanel();
@@ -177,6 +177,7 @@ public class CipherEncoder implements EntryPoint, ChangeListener {
         // Add main panel to the root {{{2
         RootPanel.get().add(this.main_tab_panel);
         RootPanel.get("loading").setVisible(false);
+        this.key1.setFocus(true);
         debug("Application ready.");
     } // }}}1
 
