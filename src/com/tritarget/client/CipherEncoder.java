@@ -28,10 +28,10 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
  */
-public class CipherEncoder implements EntryPoint, ChangeListener {
+public class CipherEncoder implements EntryPoint, ChangeListener, ClickListener {
     // Constants
     public static final String APP_NAME = "Cipher Encoder";
-    public static final String APP_VERSION = "0.3";
+    public static final String APP_VERSION = "0.4";
 
     // Private fields {{{
     private TextBox key1;
@@ -82,18 +82,19 @@ public class CipherEncoder implements EntryPoint, ChangeListener {
 
         // Setup the cipher chooser. {{{2
         debug("Initializing cipher chooser panel.");
-        this.cipher_choice = new RadioButton[3];
-        this.cipher_choice[0] = new RadioButton("cipher_choice_group", "Double Box Playfair");
-        this.cipher_choice[0].setTabIndex(-1);
-        this.cipher_choice[1] = new RadioButton("cipher_choice_group", "Double Transposition");
-        this.cipher_choice[1].setTabIndex(-1);
-        this.cipher_choice[2] = new RadioButton("cipher_choice_group", "Both");
-        this.cipher_choice[2].setTabIndex(-1);
-        this.cipher_choice[2].setChecked(true);
         chooser_panel.add(new Label("Choose Cipher:"));
-        chooser_panel.add(this.cipher_choice[0]);
-        chooser_panel.add(this.cipher_choice[1]);
-        chooser_panel.add(this.cipher_choice[2]);
+        this.cipher_choice = new RadioButton[4];
+        this.cipher_choice[0] = new RadioButton("cipher_choice_group", "Double Box Playfair");
+        this.cipher_choice[1] = new RadioButton("cipher_choice_group", "Double Transposition");
+        this.cipher_choice[2] = new RadioButton("cipher_choice_group", "Both");
+        this.cipher_choice[3] = new RadioButton("cipher_choice_group", "Rot13");
+        for (int i = 0; i < this.cipher_choice.length; i++)
+        {
+            this.cipher_choice[i].setTabIndex(-1);
+            this.cipher_choice[i].addClickListener(this);
+            chooser_panel.add(this.cipher_choice[i]);
+        }
+        this.cipher_choice[2].setChecked(true);
         top_panel.add(chooser_panel);
 
         // Setup the Text input and output box {{{2
@@ -121,6 +122,15 @@ public class CipherEncoder implements EntryPoint, ChangeListener {
         VerticalPanel right_text_panel = new VerticalPanel();
         right_text_panel.add(new Label("Result:"));
         right_text_panel.add(this.output);
+        Button copy_btn = new Button("Use as new text");
+        copy_btn.addClickListener(new ClickListener() {
+            public void onClick(Widget sender) {
+                CipherEncoder.this.text.setText(CipherEncoder.this.output.getText());
+                CipherEncoder.this.output.setText("");
+            }
+        });
+        right_text_panel.add(copy_btn);
+        right_text_panel.setCellHorizontalAlignment(copy_btn, HorizontalPanel.ALIGN_RIGHT);
         text_panel.add(right_text_panel);
 
         // Setup the buttons panel {{{2
@@ -189,8 +199,17 @@ public class CipherEncoder implements EntryPoint, ChangeListener {
         debugClear();
         String output = "";
         String input = this.text.getText();
+        int choice;
+        for (choice = 0; choice < this.cipher_choice.length; choice++)
+        {
+            if (this.cipher_choice[choice].isChecked()) 
+            {
+                // Offset found. End loop.
+                break;   
+            }
+        }
         // Double Box Playfair
-        if (this.cipher_choice[0].isChecked() || this.cipher_choice[2].isChecked())
+        if (choice == 0 || choice == 2)
         {
             DoublePlayfairCipher dpc = new DoublePlayfairCipher(this.key1.getText(), this.key2.getText());
             debug("Executing DoublePlayfairCipher");
@@ -198,12 +217,12 @@ public class CipherEncoder implements EntryPoint, ChangeListener {
             output = dpc.encode(input);
             debug("Result: " + output);
         }
-        if (this.cipher_choice[2].isChecked())
+        if (choice == 2)
         {
             input = output;
         }
         // Double Transposition
-        if (this.cipher_choice[1].isChecked() || this.cipher_choice[2].isChecked())
+        if (choice == 1 | choice == 2)
         {
             TranspositionCipher tc = new TranspositionCipher(this.key1.getText());
             debug("Executing first TranspositionCipher");
@@ -215,6 +234,12 @@ public class CipherEncoder implements EntryPoint, ChangeListener {
             debugFixed(tc.toString());
             output = tc.encode(output);
             debug("Result: " + output);
+        }
+        // Rot13
+        if (choice == 3)
+        {
+            output = Rot13.encode(input);
+            debug("Rot13 result: " + output);
         }
         this.output.setText(output);
     }
@@ -228,8 +253,17 @@ public class CipherEncoder implements EntryPoint, ChangeListener {
         debugClear();
         String output = "";
         String input = this.text.getText();
+        int choice;
+        for (choice = 0; choice < this.cipher_choice.length; choice++)
+        {
+            if (this.cipher_choice[choice].isChecked()) 
+            {
+                // Offset found. End loop.
+                break;   
+            }
+        }
         // Double Transposition
-        if (this.cipher_choice[1].isChecked() || this.cipher_choice[2].isChecked())
+        if (choice == 1 | choice == 2)
         {
             TranspositionCipher tc = new TranspositionCipher(this.key2.getText());
             debug("Executing second TranspositionCipher");
@@ -242,12 +276,12 @@ public class CipherEncoder implements EntryPoint, ChangeListener {
             output = tc.decode(output);
             debug("Result: " + output);
         }
-        if (this.cipher_choice[2].isChecked())
+        if (choice == 2)
         {
             input = output;
         }
         // Double Box Playfair
-        if (this.cipher_choice[0].isChecked() || this.cipher_choice[2].isChecked())
+        if (choice == 0 || choice == 2)
         {
             DoublePlayfairCipher dpc = new DoublePlayfairCipher(this.key1.getText(), this.key2.getText());
             debug("Executing DoublePlayfairCipher");
@@ -255,27 +289,64 @@ public class CipherEncoder implements EntryPoint, ChangeListener {
             output = dpc.decode(input);
             debug("Result: " + output);
         }
+        // Rot13
+        if (choice == 3)
+        {
+            output = Rot13.encode(input);
+            debug("Rot13 result: " + output);
+        }
         this.output.setText(output);
     }
     // }}}
 
     /**
-     * Validates the fields and enable/disables the buttons.
+     * Checks field verification when a radio button is clicked.
+     * @param sender the widget that triggered the event.
+     */
+    // onClick(Widget) {{{
+    public void onClick(Widget sender) {
+        this.verification();
+    }
+    // }}}
+
+    /**
+     * Checks field verification when a text box changes.
      * @param sender the widget that triggered the event.
      */
     // onChange(Widget) {{{
     public void onChange(Widget sender) {
-        if (this.key1.getText().length() > 0
-            && this.key2.getText().length() > 0
-            && this.text.getText().length() > 0)
+        this.verification();
+    }
+    // }}}
+
+    /**
+     * Validates the fields and enable/disables the buttons.
+     */
+    // verification() {{{
+    private void verification() {
+        // TODO: disale text entry depending.
+        if (this.cipher_choice[3].isChecked())
         {
+            this.key1.setEnabled(false);
+            this.key2.setEnabled(false);
             this.encode_btn.setEnabled(true);
             this.decode_btn.setEnabled(true);
         }
-        else
+        else 
         {
-            this.encode_btn.setEnabled(false);
-            this.decode_btn.setEnabled(false);
+            this.key1.setEnabled(true);
+            this.key2.setEnabled(true);
+            if (this.key1.getText().length() > 0
+                && this.key2.getText().length() > 0)
+            {
+                this.encode_btn.setEnabled(true);
+                this.decode_btn.setEnabled(true);
+            }
+            else
+            {
+                this.encode_btn.setEnabled(false);
+                this.decode_btn.setEnabled(false);
+            }
         }
     }
     // }}}
