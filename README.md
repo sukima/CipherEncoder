@@ -35,4 +35,4 @@ You can run / compile using the supplied `CipherEncoder-build` script:
 
 This code is licensed under the Educational Community License version 1.0
 
-See `COPYING` for more information.
+See `COPYING.txt` for more information.
