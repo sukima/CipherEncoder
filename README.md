@@ -11,9 +11,9 @@ cipher algorithms and I wanted to learn GWT.
 Ciphers can be added in the future. For now these are what is currently
 included:
 
-* Double Playfair
+* Double Box Playfair
 * Rot13
-* Transposition
+* Double Transposition
 
 ## Requirements
 
