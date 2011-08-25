@@ -1,0 +1,65 @@
+#!/bin/sh
+# This was ran on a mac. If you are not using a mac please review the CLASSPATH
+# variable near the bottom
+PORT=1035
+APP="`basename $0`"
+APPDIR="`dirname $0`"
+GWT_DIR="${APPDIR}/lib"
+MODE="c"
+ARGS=""
+
+function usage() {
+    echo "Usage: ${APP} [-h|-d|-s|-g <GWT Directory>] [other options]"
+    echo "  -h      This cruft"
+    echo "  -d      Debug mode"
+    echo "  -s      Shell mode"
+    echo "  -g dir  Directory that GWT jar files are"
+    exit 1
+}
+
+while [ -n "$1" ]; do
+    case "$1" in
+        -s|--shell)
+            MODE="s"
+            ;;
+        -d|--debug)
+            MODE="d"
+            ;;
+        -g|--gwt)
+            shift
+            GWT_DIR=$1
+            ;;
+        -h|--help)
+            usage
+            ;;
+        *)
+            ARGS="${SRGS} $1"
+            ;;
+    esac
+    shift
+done
+
+if [ -z "$GWT_DIR" ]; then
+    usage
+fi
+
+if [ ! -f "${SWT_DIR}/gwt-user.jar" ]; then
+    echo "GWT not found in '${GWT_DIR}'. Check your GWT install."
+    exit 128
+fi
+
+# This is mac specific. Change to your version of GWT
+CLASSPATH="${APPDIR}/src:${APPDIR}/bin:${GWT_DIR}/gwt-user.jar:${GWT_DIR}/gwt-dev-mac.jar"
+
+case "$MODE" in
+    s)
+        exec java -XstartOnFirstThread -cp "$CLASSPATH" com.google.gwt.dev.GWTShell -out "$APPDIR/www" $ARGS org.tritarget.CipherEncoder/CipherEncoder.html
+        ;;
+    d)
+        echo "Running debug server on port ${PORT}."
+        exec java -XstartOnFirstThread -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=$PORT -cp "$CLASSPATH" com.google.gwt.dev.GWTShell -out "$APPDIR/www" -logLevel DEBUG $ARGS org.tritarget.CipherEncoder/CipherEncoder.html
+        ;;
+    *)
+        exec java -XstartOnFirstThread -cp "$CLASSPATH" com.google.gwt.dev.GWTCompiler -out "$APPDIR/www" $ARGS org.tritarget.CipherEncoder
+        ;;
+esac

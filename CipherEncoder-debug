@@ -1,6 +1,0 @@
-#!/bin/sh
-PORT=1035
-APPDIR=`dirname $0`;
-CLASSPATH="$APPDIR/src:$APPDIR/bin:/Users/suki/source/gwt-mac-1.4.62/gwt-user.jar:/Users/suki/source/gwt-mac-1.4.62/gwt-dev-mac.jar"
-#/Users/suki/jswat-3.16/bin/jswat -cp:a $CLASSPATH &
-java -XstartOnFirstThread -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=$PORT -cp $CLASSPATH com.google.gwt.dev.GWTShell -out "$APPDIR/www" -logLevel DEBUG "$@" org.tritarget.CipherEncoder/CipherEncoder.html;
