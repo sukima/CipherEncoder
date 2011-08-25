@@ -1,3 +1,3 @@
 #!/bin/sh
 APPDIR=`dirname $0`;
-java -XstartOnFirstThread -cp "$APPDIR/src:$APPDIR/bin:/Users/suki/source/gwt-mac-1.4.62/gwt-user.jar:/Users/suki/source/gwt-mac-1.4.62/gwt-dev-mac.jar" com.google.gwt.dev.GWTShell -out "$APPDIR/www" "$@" com.tritarget.CipherEncoder/CipherEncoder.html;
+java -XstartOnFirstThread -cp "$APPDIR/src:$APPDIR/bin:/Users/suki/source/gwt-mac-1.4.62/gwt-user.jar:/Users/suki/source/gwt-mac-1.4.62/gwt-dev-mac.jar" com.google.gwt.dev.GWTShell -out "$APPDIR/www" "$@" org.tritarget.CipherEncoder/CipherEncoder.html;

@@ -4,6 +4,6 @@
 	<inherits name='com.google.gwt.user.User'/>
 
 	<!-- Specify the app entry point class.                   -->
-	<entry-point class='com.tritarget.client.CipherEncoder'/>
+	<entry-point class='org.tritarget.client.CipherEncoder'/>
   
 </module>

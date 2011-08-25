@@ -3,7 +3,7 @@
  * Licensed under the Educational Community License version 1.0
  * See the file COPYING with this distrobution for details.
  */
-package com.tritarget.client;
+package org.tritarget.client;
 
 /**
  * Encapsulates all the logic used to encode and decode using the
