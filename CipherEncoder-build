@@ -13,7 +13,7 @@ function usage() {
     echo "  -h      This cruft"
     echo "  -d      Debug mode"
     echo "  -s      Shell mode"
-    echo "  -g dir  Directory that GWT jar files are"
+    echo "  -g dir  Directory that GWT jar files are in"
     exit 1
 }
 
