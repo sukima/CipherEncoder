@@ -7,8 +7,9 @@ MODE="c"
 ARGS=""
 
 function usage() {
-    echo "Usage: ${APP} [-h|-d|-s|-g <GWT Directory>] [other options]"
+    echo "Usage: ${APP} [-h|-c|-d|-s] [-g <GWT Directory>] [other options]"
     echo "  -h      This cruft"
+    echo "  -c      Clean working directory"
     echo "  -d      Debug mode"
     echo "  -s      Shell mode"
     echo "  -g dir  Directory that GWT jar files are in"
@@ -29,6 +30,12 @@ while [ -n "$1" ]; do
             ;;
         -h|--help)
             usage
+            ;;
+        -c|--clean)
+            if [ -d www ]; then echo "Removing www"; rm -rf www; fi
+            if [ -d war ]; then echo "Removing war"; rm -rf war; fi
+            if [ -d tomcat ]; then echo "Removing tomcat"; rm -rf tomcat; fi
+            exit 0
             ;;
         *)
             ARGS="${SRGS} $1"
