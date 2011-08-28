@@ -1,6 +1,4 @@
 #!/bin/sh
-# This was ran on a mac. If you are not using a mac please review the CLASSPATH
-# variable near the bottom
 PORT=1035
 APP="`basename $0`"
 APPDIR="`dirname $0`"
@@ -43,23 +41,24 @@ if [ -z "$GWT_DIR" ]; then
     usage
 fi
 
-if [ ! -f "${SWT_DIR}/gwt-user.jar" ]; then
+if [ ! -f "${GWT_DIR}/gwt-user.jar" ]; then
     echo "GWT not found in '${GWT_DIR}'. Check your GWT install."
     exit 128
 fi
 
-# This is mac specific. Change to your version of GWT
-CLASSPATH="${APPDIR}/src:${APPDIR}/bin:${GWT_DIR}/gwt-user.jar:${GWT_DIR}/gwt-dev-mac.jar"
+CLASSPATH="${APPDIR}/src:${APPDIR}/bin:${GWT_DIR}/gwt-api-checker.jar:${GWT_DIR}/gwt-dev.jar:${GWT_DIR}/gwt-servlet-deps.jar:${GWT_DIR}/gwt-servlet.jar:${GWT_DIR}/gwt-soyc-vis.jar:${GWT_DIR}/gwt-user.jar:${GWT_DIR}/validation-api-1.0.0.GA-sources.jar:${GWT_DIR}/validation-api-1.0.0.GA.jar"
 
+# -XstartOnFirstThread does not apear to work on Mac OS X. YMMV
+# https://groups.google.com/forum/#!topic/google-web-toolkit/BMruUZDiTXk
 case "$MODE" in
     s)
-        exec java -XstartOnFirstThread -cp "$CLASSPATH" com.google.gwt.dev.GWTShell -out "$APPDIR/www" $ARGS org.tritarget.CipherEncoder/CipherEncoder.html
+        exec java -cp "$CLASSPATH" com.google.gwt.dev.GWTShell $ARGS org.tritarget.CipherEncoder/CipherEncoder.html
         ;;
     d)
         echo "Running debug server on port ${PORT}."
-        exec java -XstartOnFirstThread -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=$PORT -cp "$CLASSPATH" com.google.gwt.dev.GWTShell -out "$APPDIR/www" -logLevel DEBUG $ARGS org.tritarget.CipherEncoder/CipherEncoder.html
+        exec java -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=$PORT -cp "$CLASSPATH" com.google.gwt.dev.GWTShell -logLevel DEBUG $ARGS org.tritarget.CipherEncoder/CipherEncoder.html
         ;;
     *)
-        exec java -XstartOnFirstThread -cp "$CLASSPATH" com.google.gwt.dev.GWTCompiler -out "$APPDIR/www" $ARGS org.tritarget.CipherEncoder
+        exec java -cp "$CLASSPATH" com.google.gwt.dev.Compiler $ARGS org.tritarget.CipherEncoder
         ;;
 esac

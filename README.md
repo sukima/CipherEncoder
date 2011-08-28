@@ -17,7 +17,7 @@ included:
 
 ## Requirements
 
-[GWT SDK][GWT] Version 1.4.62 or higher.
+[GWT SDK][GWT] Version 2.3.0 or higher.
 
 [GWT]: http://code.google.com/webtoolkit/download.html
 
